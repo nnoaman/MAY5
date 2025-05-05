@@ -31,6 +31,7 @@ location = "westeurope"
 
 resourcegroup_tags = {
   Control_plane = "westeurope"
+  "Owner"         = "TBC"
 }
 
 #########################################################################################
@@ -132,7 +133,7 @@ webapp_subnet_address_prefix = "10.170.20.80/28"
 #########################################################################################
 
 # deployer_enable_public_ip defines if the deployers will be deployed with a public IP address
-deployer_enable_public_ip = true
+deployer_enable_public_ip = false
 
 # deployer_count is an optional parameter that specifies the number of deployer VMs to be provisioned
 deployer_count=1
@@ -157,18 +158,12 @@ deployer_image = {
   "os_type"         = "Linux"
   "source_image_id" = ""
   "publisher"       = "Canonical"
-  "offer"           = "0001-com-ubuntu-server-jammy"
-  "sku"             = "22_04-lts-gen2"
+  "offer"           = "ubuntu-24_04-lts",
+  "sku"             = "server",
   "version"         = "latest"
 }
 
 # Use this field if you are using a marketplace image that has a plan attached to it
-plan = {
-    "use"         = false
-    "name"      = ""
-    "publisher" = ""
-    "product"   = ""
-  }
 
 # deployer_diagnostics_account_arm_id defines the diagnosting storage account for the deployer
 # deployer_diagnostics_account_arm_id = ""
@@ -177,7 +172,7 @@ plan = {
 #deployer_authentication_type="key"
 
 # use_spn defines if the deployments are performed using Service Principals or the deployer's managed identiry, true=SPN, false=MSI
-# use_spn = true
+use_spn = true
 
 # user_assigned_identity_id defines the user assigned identity that will be assigned to the deployers
 #user_assigned_identity_id="/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/XXXXXXXX/providers/Microsoft.ManagedIdentity/userAssignedIdentities/xxxxxxxxxx"
@@ -221,7 +216,7 @@ enable_purge_control_for_keyvaults = false
 #deployer_assign_subscription_permissions=true
 
 # use_private_endpoint is a boolean flag controlling if the keyvaults and storage accounts have private endpoints
-# use_private_endpoint=false
+use_private_endpoint = true
 
 # use_service_endpoint is a boolean flag controlling service_endpoints are used
 use_service_endpoint = true
@@ -231,7 +226,11 @@ use_service_endpoint = true
 auto_configure_deployer = true
 
 # Boolean value indicating if firewall should be enabled for key vaults and storage
-enable_firewall_for_keyvaults_and_storage = false
+enable_firewall_for_keyvaults_and_storage = true
 
 # List of subnet IDs to add to storage account and key vault firewalls"
 #subnets_to_add_to_firewall_for_keyvaults_and_storage=["<azure_resource_id_for_subnet>"]
+
+application_configuration_deployment = true
+
+custom_random_id="194"
