@@ -80,6 +80,7 @@ jobs:
           cd ${SAP_AUTOMATION_REPO_PATH}
           bash deploy/scripts/pipeline_scripts/v2/01-control-plane-prepare.sh
         env:
+          APP_TOKEN: ${{ steps.get_workflow_token.outputs.token }}
           CONTROL_PLANE_NAME: ${{ inputs.control_plane_name }}
           DEPLOYER_FOLDERNAME: "${{ inputs.control_plane_name }}-INFRASTRUCTURE"
           DEPLOYER_TFVARS_FILENAME: "${{ inputs.control_plane_name }}-INFRASTRUCTURE.tfvars"
