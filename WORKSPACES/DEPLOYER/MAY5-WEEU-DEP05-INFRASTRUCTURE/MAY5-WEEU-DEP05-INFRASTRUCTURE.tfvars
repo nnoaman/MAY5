@@ -205,6 +205,7 @@ enable_purge_control_for_keyvaults = false
 # List of object IDs to add to key vault policies"
 #additional_users_to_add_to_keyvault_policies=["xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", "yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy"]
 
+enable_rbac_authorization_for_keyvault = true
 
 #########################################################################################
 #                                                                                       #
@@ -213,7 +214,7 @@ enable_purge_control_for_keyvaults = false
 #########################################################################################
 
 # deployer_assign_subscription_permissions is a boolean flag controlling if the deployment credential should be assigned Contribuor permissions on the subscription
-#deployer_assign_subscription_permissions=true
+deployer_assign_subscription_permissions = true
 
 # use_private_endpoint is a boolean flag controlling if the keyvaults and storage accounts have private endpoints
 use_private_endpoint = true
