@@ -3,4 +3,4 @@ DEPLOYER_KEYVAULT=MAY5WEEUDEP05user123
 APPLICATION_CONFIGURATION_ID=/subscriptions/d6c8e3b6-467e-452e-97c9-49d9de9e37da/resourceGroups/MAY5-WEEU-DEP05-INFRASTRUCTURE/providers/Microsoft.AppConfiguration/configurationStores/may5weeuapc123
 APPLICATION_CONFIGURATION_NAME=may5weeuapc123
 HAS_WEBAPP=false
-step=1
+step=0
