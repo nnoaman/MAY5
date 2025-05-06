@@ -224,7 +224,7 @@ use_service_endpoint = true
 
 # auto_configure_deployer is a boolean flag controlling if the automation should try to configure the deployer automatically
 # set to false if outbound internet on the deployer is not available
-auto_configure_deployer = false
+auto_configure_deployer = true
 
 # Boolean value indicating if firewall should be enabled for key vaults and storage
 enable_firewall_for_keyvaults_and_storage = true
