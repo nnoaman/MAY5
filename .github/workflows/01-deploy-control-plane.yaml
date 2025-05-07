@@ -19,7 +19,7 @@ on:
         description: "Select the SAP Library to deploy"
         type: choice
         options:
-          - APR29-WEEU-SAP_LIBRARY
+          - MAY5-WEEU-SAP_LIBRARY
       force_reset:
         description: 'Force a re-install - may require multiple re-runs'
         required: false
