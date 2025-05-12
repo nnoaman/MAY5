@@ -69,7 +69,7 @@ jobs:
           application_id: ${{ secrets.APPLICATION_ID }}
           application_private_key: ${{ secrets.APPLICATION_PRIVATE_KEY }}
           #organization: ${{ github.repository_owner }}
-          
+
       - name: Azure Login with Service Principal
         if: ${{ vars.USE_MSI != 'true' }}
         uses: Azure/Login@v2
@@ -157,15 +157,23 @@ jobs:
     environment: ${{ inputs.control_plane_name }}
     needs: [prepare-deployer, populate-keyvault]
     runs-on: ${{ needs.prepare-deployer.outputs.this_agent || 'ubuntu-latest' }}
+    container:
+      image: ghcr.io/nnoaman/sap-automation:kimmos_playground
     outputs:
       HAS_WEBAPP: ${{ steps.get_webapp_variables.outputs.HAS_WEBAPP }}
       APPSERVICE_NAME: ${{ steps.get_webapp_variables.outputs.APPSERVICE_NAME }}
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout the code
         uses: actions/checkout@v4
         with:
-          path: sap-automation
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git Safe Directory
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git config --global --add safe.directory "/__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}"
 
       - name: Get app token
         id: get_workflow_token
@@ -174,26 +182,18 @@ jobs:
           application_id: ${{ secrets.APPLICATION_ID }}
           application_private_key: ${{ secrets.APPLICATION_PRIVATE_KEY }}
           #organization: ${{ github.repository_owner }}
-          
+
       - name: Azure Login with Service Principal
         if: ${{ vars.USE_MSI != 'true' }}
         uses: Azure/Login@v2
         with:
           creds: '{"clientId":"${{ secrets.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}'
 
-      - name: Parameter Validation
-        id: param_validation
-        run: |
-          bash ./sap-automation/deploy/scripts/pipeline_scripts/v2/00-validate-credentials.sh
-        env:
-          ZONE: ${{ inputs.control_plane_name }}
-          ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-
       - name: Deploy Control Plane
         run: |
           echo "Running control plane deployment"
           cd ${SAP_AUTOMATION_REPO_PATH}
-          bash ./sap-automation/deploy/scripts/pipeline_scripts/v2/01-control-plane-deploy.sh
+          bash deploy/scripts/pipeline_scripts/v2/01-control-plane-deploy.sh
         env:
           APPLICATION_CONFIGURATION_NAME: ${{ vars.APPLICATION_CONFIGURATION_NAME }}
           APP_TOKEN: ${{ steps.get_workflow_token.outputs.token }}
@@ -202,19 +202,17 @@ jobs:
           CONTROL_PLANE_NAME: ${{ inputs.control_plane_name }}
           DEPLOYER_KEYVAULT: ${{ vars.DEPLOYER_KEYVAULT }}
           APP_REGISTRATION_APP_ID: ${{ secrets.APP_REGISTRATION_APP_ID }}
-          CONFIG_REPO_PATH: ${{ github.workspace }}/${{ inputs.config_repo_path }}
           DEPLOYER_TFSTATE_KEY: "${{ inputs.control_plane_name }}-INFRASTRUCTURE.terraform.tfstate"
           FORCE_RESET: ${{ inputs.force_reset }}
           IS_PIPELINE_DEPLOYMENT: true
           OBJECT_ID: ${{ secrets.AZURE_OBJECT_ID }}
           ARM_SUBSCRIPTION_ID: "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
-          SAP_AUTOMATION_REPO_PATH: ${{ github.workspace }}/${{ inputs.sap_automation_repo_path }}
           TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           TF_VAR_agent_pool: 'Default'
           TF_VAR_ansible_core_version: ${{ env.ANSIBLE_CORE_VERSION }}
           TF_VAR_app_registration_app_id: ${{ secrets.APP_REGISTRATION_APP_ID }}
           TF_VAR_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          TF_VAR_tf_version: ${{ env.TF_VERSION }}
+          tf_version: ${{ env.TF_VERSION }}
           TF_VAR_use_spn: ${{ env.USE_MSI }}
           USE_MSI: ${{ env.USE_MSI }}
 
@@ -224,8 +222,6 @@ jobs:
           bash ./sap-automation/deploy/scripts/pipeline_scripts/01-webapp-variables.sh
         env:
           CONTROL_PLANE_NAME: ${{ inputs.control_plane_name }}
-          CONFIG_REPO_PATH: ${{ github.workspace }}/${{ inputs.config_repo_path }}
-
   deploy-web-app:
     name: Deploy SAP Configuration Web App
     needs: [prepare-deployer, deploy-control-plane]
