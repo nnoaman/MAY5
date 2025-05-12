@@ -104,7 +104,7 @@ jobs:
     name: Save Deployment Credentials in Azure Keyvault
     environment: ${{ inputs.control_plane_name }}
     needs: prepare-deployer
-    runs-on: ubuntu-latest
+    runs-on: ${{ needs.prepare-deployer.outputs.this_agent || 'ubuntu-latest' }}
     container:
       image: ghcr.io/nnoaman/sap-automation:sdaf-github-actions
 
