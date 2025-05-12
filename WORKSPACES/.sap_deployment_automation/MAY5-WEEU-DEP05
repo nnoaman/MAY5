@@ -6,5 +6,5 @@ tfstate_resource_id=/subscriptions/d6c8e3b6-467e-452e-97c9-49d9de9e37da/resource
 deployer_tfstate_key=MAY5-WEEU-DEP05-INFRASTRUCTURE.terraform.tfstate
 APPLICATION_CONFIGURATION_ID=/subscriptions/d6c8e3b6-467e-452e-97c9-49d9de9e37da/resourceGroups/MAY5-WEEU-DEP05-INFRASTRUCTURE/providers/Microsoft.AppConfiguration/configurationStores/may5weeuapc125
 CONTROL_PLANE_NAME=MAY5-WEEU-DEP05
-step=3
+step=0
 ARM_SUBSCRIPTION_ID=d6c8e3b6-467e-452e-97c9-49d9de9e37da
