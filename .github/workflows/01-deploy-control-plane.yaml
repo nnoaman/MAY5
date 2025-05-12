@@ -106,7 +106,7 @@ jobs:
     needs: prepare-deployer
     runs-on: self-hosted
     container:
-      image: ghcr.io/nnoaman/sap-automation:kimmos_playground
+      image: ghcr.io/nnoaman/sap-automation:sdaf-github-actions
 
     steps:
       - name: Checkout the code
