@@ -1,7 +1,7 @@
-step=0
 ARM_SUBSCRIPTION_ID=d6c8e3b6-467e-452e-97c9-49d9de9e37da
 DEPLOYER_KEYVAULT=MAY5WEEUDEP05user125
 APPLICATION_CONFIGURATION_ID=/subscriptions/d6c8e3b6-467e-452e-97c9-49d9de9e37da/resourceGroups/MAY5-WEEU-DEP05-INFRASTRUCTURE/providers/Microsoft.AppConfiguration/configurationStores/may5weeuapc125
 APPLICATION_CONFIGURATION_NAME=may5weeuapc125
 HAS_WEBAPP=false
 MSI_ID=28f5a5e7-5812-48c3-bff4-630de8cbfc26
+step=1
