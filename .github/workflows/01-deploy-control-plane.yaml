@@ -43,7 +43,7 @@ jobs:
     environment: ${{ inputs.control_plane_name }}
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/nnoaman/sap-automation:github-actions-v2
+      image: ghcr.io/nnoaman/sap-automation:kimmos_playground
     outputs:
       this_agent: ${{ steps.prepare_control_plane.outputs.this_agent }}
       deployer_keyvault: ${{ steps.prepare_control_plane.outputs.deployer_keyvault }}
@@ -106,7 +106,7 @@ jobs:
     needs: prepare-deployer
     runs-on: ${{ needs.prepare-deployer.outputs.this_agent || 'ubuntu-latest' }}
     container:
-      image: ghcr.io/nnoaman/sap-automation:github-actions-v2
+      image: ghcr.io/nnoaman/sap-automation:kimmos_playground
 
     steps:
       - name: Checkout the code
